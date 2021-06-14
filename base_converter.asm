@@ -2,7 +2,7 @@
 # >> SSC0902 - Organização e Arquitetura de Computadores (2021) << 
 
 # -------- AUTORES -------- #
-#           | Karoliny Oliveira
+#  10368020 | Karoliny Oliveira
 #           | Lourenço de Salles Roselino
 #           | Luiz Fernando Santos
 #   5588687 | Melissa Motoki Nogueira
