@@ -13,20 +13,22 @@
 
     # → Mensagens de erro
     invalid_input_text:		 .asciiz "Entrada inválida" 
+    invalid_base_text:		 .asciiz "Base inválida" 
+
 
     # → Entrada de valores (para o input do usuário)
     input_number_text:       .asciiz "Digite um inteiro positivo: "
-    input_original_base: 	 .asciiz "Selecione a base original (B H ou D): "
+    input_original_base:     .asciiz "Selecione a base original (B H ou D): "
     input_final_base:	     .asciiz "Selecione a base final (B H ou D): "
     newline:                 .asciiz "\n"
 
     # → Saída de valores (após a conversão)
-    output_result_text:     .asciiz "O novo valor obtido é: "
+    output_result_text:      .asciiz "O novo valor obtido é: "
 
     # → Declaração de variáveis ("arrays") ocupando 32-bytes na memória
-    input_number:		     .space 32
-    output_result:	         .space 32
-    aux_array:               .space 32
+    input_number:	     .space 33
+    output_result:	     .space 33
+    aux_array:           .space 33
     
     # Definições
     .align 0        # alinha a localização atual
@@ -47,11 +49,11 @@ main:
     # -------- LEITURA DA BASE ORIGINAL -------- #
    
     # Imprime input_original_base
-	la $a0, input_original_base 
+    la $a0, input_original_base 
     jal print_string 
 
     jal read_base_input    # Leitura da base ORIGINAL	
-	move $t0, $v0          # Guarda base ORIGINAL em $t0
+    move $t0, $v0          # Guarda base ORIGINAL em $t0
     jal print_newline
  
 
@@ -118,22 +120,22 @@ finish_conversion:
 
     # Modifica o endereço da base final para ser utilizada nas funções de conversão
     move $t0, $t1  
-
+    
     # a0 → número a ser convertido (recebe das conversões de start_conversion)
     # t0 → endereço da base final 
     # t2 → endereço para comparações
 
-    # if(t2 == 'B') → base original é BINÁRIA
+    # if(t2 == 'B') → base final é BINÁRIA
     la   $t2, binary
     lb   $t2, 0($t2)
     beq  $t2, $t0, final_binary
 
-    # if(t2 == 'H') → base original é HEXADECIMAL
+    # if(t2 == 'H') → base final é HEXADECIMAL
     la   $t2, hexa
     lb   $t2, 0($t2)
     beq  $t2, $t0, final_hexa
 
-    # if(t2 == 'D') → base original é DECIMAL
+    # if(t2 == 'D') → base final é DECIMAL
     la   $t2, decimal
     lb   $t2, 0($t2)
     beq  $t2, $t0, final_decimal

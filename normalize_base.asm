@@ -19,15 +19,16 @@ binary_to_decimal_loop:
     lb   $t3, 0($t4)
     addi $t3, $t3, -48                  # conversão array → int
     blt  $t3, $zero, finish_conversion  # finaliza o loop quando t3 < 0
-    li   $t4, 0
-    blt  $t3, $t4, print_error_message
-    li   $t4, 1
-    bgt  $t3, $t4, print_error_message
+    li   $t2, 0
+    blt  $t3, $t2, print_error_message
+    li   $t2, 1
+    bgt  $t3, $t2, print_error_message
     mul  $t3, $t3, $t5              # t3 = t3 * t5
     add  $a0, $a0, $t3              # a0 = a0 + t3
     li   $t6, 2                     # t6 = 2
     mul  $t5, $t5, $t6              # t5 = t5 * t6
     addi $t4, $t4, 1                # t4++ (incrementação)
+
     j    binary_to_decimal_loop     # continua o loop
 
 # -------- Normalização HEXADECIMAL → DECIMAL -------- #

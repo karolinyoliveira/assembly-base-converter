@@ -34,8 +34,9 @@ print_error_message:
 
 # Imprime uma mensagem de erro (caso a base inserida seja inválida)
 invalid_base:
-    la   $a0, invalid_base
+    la   $a0, invalid_base_text
     jal  print_string
+    j exit
 
 # Identifica que as bases ORIGINAL e FINAL selecionadas são iguais
 same_base:

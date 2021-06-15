@@ -55,13 +55,16 @@ final_hexa:
     la   $a1, aux_array      # load outputArrayAddress
     j    decimal_to_hexa
 
-# ??? ainda não sei se é necessário (por conta das funções de normalizar)
 final_decimal:
+    move $a0, $t3 
+	li $v0, 1
+	syscall
+    j exit
 
 decimal_to_hexa: 
 
 decimal_to_value:
-
+ 
 
 # Normaliza a base original, convertendo ela para um inteiro decimal
 .include "normalize_base.asm"
