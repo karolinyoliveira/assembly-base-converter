@@ -38,15 +38,37 @@ invalid_base:
     jal  print_string
     j exit
 
-# Identifica que as bases ORIGINAL e FINAL selecionadas são iguais
-same_base:
+# Se as bases forem iguais, imprime o mesmo resultado, sem modificações
+print_same_base:
     la   $a0, output_result_text    # carrega o endereço da mensagem de saída
     jal  print_string
     la   $a0, input_number          # carrega o endereço do número de input (não é necessário converter)
     jal  print_string
     j    exit
+        
 
+# ✤ -------- Funções de SAÍDA DO PROGRAMA -------- ✤ #
 
+# Recebe o número decimal (em $a0) e o imprime
+output_integer:             
+    move $a1, $a0                   # guarda o valor de $a0 em $a1 (auxiliar)
+    la   $a0, output_result_text    # carrega ["O novo valor obtido é: "]
+    jal  print_string               # chamada do método 'print_string'
+
+    move $a0, $a1                   # input_number = 0
+    li   $v0, 1                     # print_string syscall code = 4
+    syscall
+    j    exit
+
+# Imprime um valor número representado por uma string 
+# Utilizado para exibir o valor de bases BINÁRIAS e HEXADECIMAIS
+output_string:
+    la   $a0, output_result_text   # carrega ["O novo valor obtido é: "]
+    jal  print_string              # chamada do método 'print_string'
+
+    la   $a0, output_result
+    jal  print_string              # chamada do método 'print_string'
+    j    exit
 
 # ✤ -------- Funções de LEITURA -------- ✤ #
 
@@ -78,7 +100,6 @@ exit:
 # Retorna o último endereço salvo
 return:
     jr  $ra             # $ra = return address      
-
 
 
 # ✤ -------- Funções de manipulação de arrays -------- ✤ #

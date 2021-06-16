@@ -15,7 +15,6 @@
     invalid_input_text:		 .asciiz "Entrada inválida" 
     invalid_base_text:		 .asciiz "Base inválida" 
 
-
     # → Entrada de valores (para o input do usuário)
     input_number_text:       .asciiz "Digite um inteiro positivo: "
     input_original_base:     .asciiz "Selecione a base original (B H ou D): "
@@ -93,6 +92,8 @@ main:
 # -------- CONVERSÕES DE BASE -------- #
 
 # Identifica a base ORIGINAL
+# Essa base então passará por um processo de NORMALIZAÇÃO, o que
+# OTIMIZA o programa, pois trabalha-se com menos conversões
 start_conversion:
     # t2 → endereço para comparações
 
@@ -102,12 +103,12 @@ start_conversion:
     beq $t2, $t0, original_binary
 
     # if(t2 == 'H') → base original é HEXADECIMAL
-    la  $t2, binary
+    la  $t2, hexa
     lb  $t2, 0($t2)
     beq $t2, $t0, original_hexa
 
     # if(t2 == 'D') → base original é DECIMAL
-    la  $t2, binary
+    la  $t2, decimal
     lb  $t2, 0($t2)
     beq $t2, $t0, original_decimal
 
@@ -116,6 +117,7 @@ start_conversion:
 
 
 # Saída após os procedimentos de conversão
+# A esse ponto, o número recebido é sempre DECIMAL (pois foi normalizado)
 finish_conversion:                         
 
     # Modifica o endereço da base final para ser utilizada nas funções de conversão
@@ -128,17 +130,17 @@ finish_conversion:
     # if(t2 == 'B') → base final é BINÁRIA
     la   $t2, binary
     lb   $t2, 0($t2)
-    beq  $t2, $t0, final_binary
+    beq  $t2, $t0, final_binary    # conversão DECIMAL → BINÁRIO
 
     # if(t2 == 'H') → base final é HEXADECIMAL
     la   $t2, hexa
     lb   $t2, 0($t2)
-    beq  $t2, $t0, final_hexa
+    beq  $t2, $t0, final_hexa       # conversão DECIMAL → HEXA
 
     # if(t2 == 'D') → base final é DECIMAL
     la   $t2, decimal
     lb   $t2, 0($t2)
-    beq  $t2, $t0, final_decimal
+    beq  $t2, $t0, output_integer   # imprime o número decimal
 
     # else → valor de entrada para a base é INVÁLIDO
     j invalid_base
@@ -147,5 +149,9 @@ finish_conversion:
 # Funções auxiliares (utilidades)
 .include "utilities.asm"
 
-# Funções que performam a conversão entre as bases
-.include "convert_functions.asm"
+# Funções que performam o tratamento das bases ORIGINAIS 
+# e conversão das mesmas para decimal
+.include "to_decimal.asm"
+
+# Conversão das bases (decimais, após normalização) para a base final
+.include "to_base.asm"
