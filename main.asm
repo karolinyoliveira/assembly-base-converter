@@ -15,7 +15,6 @@
     invalid_input_text:		 .asciiz "Entrada inválida" 
     invalid_base_text:		 .asciiz "Base inválida" 
 
-
     # → Entrada de valores (para o input do usuário)
     input_number_text:       .asciiz "Digite um inteiro positivo: "
     input_original_base:     .asciiz "Selecione a base original (B H ou D): "
