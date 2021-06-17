@@ -3,7 +3,7 @@
 
 # -------- AUTORES -------- #
 #  10368020 | Karoliny Oliveira
-#           | Lourenço de Salles Roselino
+#  11796805 | Lourenço de Salles Roselino
 #           | Luiz Fernando Santos
 #   5588687 | Melissa Motoki Nogueira
 
@@ -97,7 +97,7 @@ main:
 start_conversion:
     # t2 → endereço para comparações
 
-    # if(t2 == 'B') → base original é BINÁRIA
+    # if(t2 == 'B') → base original é BIN�?RIA
     la  $t2, binary
     lb  $t2, 0($t2)
     beq $t2, $t0, original_binary
@@ -112,7 +112,7 @@ start_conversion:
     lb  $t2, 0($t2)
     beq $t2, $t0, original_decimal
 
-    # else → valor de entrada para a base é INVÁLIDO
+    # else → valor de entrada para a base é INV�?LIDO
     j invalid_base
 
 
@@ -127,10 +127,10 @@ finish_conversion:
     # t0 → endereço da base final 
     # t2 → endereço para comparações
 
-    # if(t2 == 'B') → base final é BINÁRIA
+    # if(t2 == 'B') → base final é BIN�?RIA
     la   $t2, binary
     lb   $t2, 0($t2)
-    beq  $t2, $t0, final_binary    # conversão DECIMAL → BINÁRIO
+    beq  $t2, $t0, final_binary    # conversão DECIMAL → BIN�?RIO
 
     # if(t2 == 'H') → base final é HEXADECIMAL
     la   $t2, hexa
@@ -142,7 +142,7 @@ finish_conversion:
     lb   $t2, 0($t2)
     beq  $t2, $t0, output_integer   # imprime o número decimal
 
-    # else → valor de entrada para a base é INVÁLIDO
+    # else → valor de entrada para a base é INV�?LIDO
     j invalid_base
 
 

@@ -1,6 +1,6 @@
 # # # # # # # # Conversão de parâmetros para um inteiro decimal (normalização da base)  # # # # # # # # 
 
-    # -------- SUMÁRIO -------- #
+    # -------- SUM�?RIO -------- #
     # t0 → base recebida 
     # t2 → endereço para comparações
     # t3 → número a ser convertido
@@ -14,7 +14,7 @@
 # → NORMALIZAÇÃO (converte para decimal)
 
 
-# Base original é BINÁRIA
+# Base original é BIN�?RIA
 original_binary:
     # base final é a mesma (imprime o valor sem mudanças)
     la   $t2, binary
@@ -44,7 +44,7 @@ original_decimal:
 
 # -------- ############## FUNÇÕES DE CONVERSÃO ############## -------- #
 
-# -------- Normalização BINÁRIO → DECIMAL -------- #
+# -------- Normalização BIN�?RIO → DECIMAL -------- #
 binary_to_decimal:
     la   $t4, input_number           # guarda o endereço de 'input_number' 
     li   $t5, 1                      # inicia o contador (t5 = 1)
@@ -106,13 +106,13 @@ hexa_to_decimal:
 # → Conversão da STRING DECIMAL de entrada em um INTEIRO DECIMAL
 
 decimal_to_decimal:
-    la   $t4, input_number           # guarda o endereço de 'input_number'
+    la   $t8, input_number           # guarda o endereço de 'input_number'
     li   $t5, 1                      # inicia o contador (t5 = 1)
     li   $a0, 0                      # resultado (será enviado para 'finish_conversion')
     j    decimal_to_decimal_loop
 
 decimal_to_decimal_loop:
-    lb   $t3, 0($t4)
+    lb   $t3, 0($t8)
     addi $t3, $t3, -48                  # conversão array → int
     blt  $t3, $zero, finish_conversion  # finaliza o loop quando t3 < 0
     li   $t4, 0
@@ -123,5 +123,5 @@ decimal_to_decimal_loop:
     li   $t6, 10                    # t6 = 10
     mul  $a0, $a0, $t6              # t5 = t5 * t6
     add  $a0, $a0, $t3              # a0 = a0 + t3
-    addi $t4, $t4, 1                # t4++ (incrementação)
+    addi $t8, $t8, 1                # t4++ (incrementação)
     j    decimal_to_decimal_loop    # continua o loop
