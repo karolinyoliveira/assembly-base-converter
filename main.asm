@@ -51,10 +51,11 @@ main:
     la $a0, input_original_base 
     jal print_string 
 
-    jal read_base_input    # Leitura da base ORIGINAL	
+    jal read_base_input    # Leitura da base ORIGINAL
     move $t0, $v0          # Guarda base ORIGINAL em $t0
+    
     jal print_newline
- 
+    
 
 
     # -------- LEITURA DO NÚMERO A SER CONVERTIDO -------- #
@@ -67,7 +68,7 @@ main:
     jal read_input_number
 
     # checa se é uma entrada válida 
-    jal not_digit                
+    jal verify_input                
 
 
 
@@ -79,6 +80,7 @@ main:
 	
     jal read_base_input     # Leitura da base FINAL
     move $t1, $v0           # Guarda base FINAL em $t1
+    
     jal print_newline
 
 
@@ -115,7 +117,7 @@ start_conversion:
     lb  $t2, 0($t2)
     beq $t2, $t0, original_decimal
 
-    # else → valor de entrada para a base é INVALIDO
+    # else → valor de entrada para a base é INVÁLIDO
     j invalid_base
 
 

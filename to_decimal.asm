@@ -1,6 +1,6 @@
 # # # # # # # # Conversão de parâmetros para um inteiro decimal (normalização da base)  # # # # # # # # 
 
-    # -------- SUM�?RIO -------- #
+    # -------- SUMÁRIO -------- #
     # t0 → base recebida 
     # t2 → endereço para comparações
     # t3 → número a ser convertido

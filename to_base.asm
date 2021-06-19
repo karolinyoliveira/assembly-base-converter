@@ -1,7 +1,7 @@
 # # # # # # # # Conversão de um INTEIRO DECIMAL para uma base de saída  # # # # # # # # 
 
 
-    # -------- SUM�?RIO -------- #
+    # -------- SUMÁRIO -------- #
     # t0 → base recebida 
     # t2 → endereço para comparações
     # t3 → número a ser convertido

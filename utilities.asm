@@ -28,12 +28,14 @@ print_string:
 
 # Imprime uma mensagem de erro
 print_error_message:
+    jal print_newline
     la   $a0, invalid_input_text    # carrega o endereço da mensagem de erro
     jal  print_string
     j    exit                       # interrompe a execução do programa
 
 # Imprime uma mensagem de erro (caso a base inserida seja inválida)
 invalid_base:
+    jal print_newline
     la   $a0, invalid_base_text
     jal  print_string
     j exit
@@ -89,14 +91,23 @@ read_input_number:
 
 # Função que verifica se a entrada de um número inteiro é válida
 # Caso o número seja inválido, interrompe a execução da aplicação
-not_digit:
+verify_input:
     
+    # -- Checa se é um número!
     li   $t2, '0'
-    bltu $t1, $a0, print_error_message  # input_number < '0'
+    bltu $a0, $t2, print_error_message  # input_number < '0'
 
     li   $t2, '9'
-    bltu $a0, $t1, print_error_message  # input_number < '9'
-    
+    bltu $t2, $a0, print_error_message  # input_number > '9'
+
+    # -- Checa se está no intervalo aceito [0, 2^32]
+    li   $t2, 0
+    bltu $a0, $t2, print_error_message  # input_number < 0
+
+    li   $t2, 4294967296
+    bltu $t2, $a0, print_error_message  # input_number < 0
+
+
     jr   $ra                    # return
 
 
