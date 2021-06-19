@@ -66,6 +66,9 @@ main:
     # Lê o inteiro digitado pelo o usuário
     jal read_input_number
 
+    # checa se é uma entrada válida 
+    jal not_digit                
+
 
 
     # -------- LEITURA DA BASE FINAL -------- #
@@ -97,7 +100,7 @@ main:
 start_conversion:
     # t2 → endereço para comparações
 
-    # if(t2 == 'B') → base original é BIN�?RIA
+    # if(t2 == 'B') → base original é BINÁRIA
     la  $t2, binary
     lb  $t2, 0($t2)
     beq $t2, $t0, original_binary
@@ -112,7 +115,7 @@ start_conversion:
     lb  $t2, 0($t2)
     beq $t2, $t0, original_decimal
 
-    # else → valor de entrada para a base é INV�?LIDO
+    # else → valor de entrada para a base é INVALIDO
     j invalid_base
 
 
@@ -127,10 +130,10 @@ finish_conversion:
     # t0 → endereço da base final 
     # t2 → endereço para comparações
 
-    # if(t2 == 'B') → base final é BIN�?RIA
+    # if(t2 == 'B') → base final é BINÁRIA
     la   $t2, binary
     lb   $t2, 0($t2)
-    beq  $t2, $t0, final_binary    # conversão DECIMAL → BIN�?RIO
+    beq  $t2, $t0, final_binary    # conversão DECIMAL → BINÁRIO
 
     # if(t2 == 'H') → base final é HEXADECIMAL
     la   $t2, hexa
@@ -142,7 +145,7 @@ finish_conversion:
     lb   $t2, 0($t2)
     beq  $t2, $t0, output_integer   # imprime o número decimal
 
-    # else → valor de entrada para a base é INV�?LIDO
+    # else → valor de entrada para a base é INVÁLIDO
     j invalid_base
 
 

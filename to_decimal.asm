@@ -1,6 +1,6 @@
 # # # # # # # # Conversão de parâmetros para um inteiro decimal (normalização da base)  # # # # # # # # 
 
-    # -------- SUM�?RIO -------- #
+    # -------- SUM�?RIO -------- #
     # t0 → base recebida 
     # t2 → endereço para comparações
     # t3 → número a ser convertido
@@ -14,7 +14,7 @@
 # → NORMALIZAÇÃO (converte para decimal)
 
 
-# Base original é BIN�?RIA
+# Base original é BINÁRIA
 original_binary:
     # base final é a mesma (imprime o valor sem mudanças)
     la   $t2, binary
@@ -44,7 +44,7 @@ original_decimal:
 
 # -------- ############## FUNÇÕES DE CONVERSÃO ############## -------- #
 
-# -------- Normalização BIN�?RIO → DECIMAL -------- #
+# -------- Normalização BINÁRIO → DECIMAL -------- #
 binary_to_decimal:
     la   $t4, input_number           # guarda o endereço de 'input_number' 
     li   $t5, 1                      # inicia o contador (t5 = 1)

@@ -74,18 +74,31 @@ output_string:
 
 # Realiza a leitura da string de base
 read_base_input:
-    li   $v0, 12            # read_string syscall code = 8
+    li   $v0, 8            # read_string syscall code = 8
     syscall
     jr   $ra                # return
 
 
 # Realiza a leitura de um número (inteiro positivo)
 read_input_number:
-    la   $a0, input_number  # load inputBase address to argument0
-    li   $v0, 8                 # read_string syscall code = 8
-    li   $a1, 32                # space allocated for inputBase
+    la   $a0, input_number      # carrega o endereço de input_number para $a0
+    li   $v0, 8                 # read_string syscall code = 8            
+    li   $a1, 32                # aloca espaço para input_original_base
     syscall
     jr   $ra                    # return
+
+# Função que verifica se a entrada de um número inteiro é válida
+# Caso o número seja inválido, interrompe a execução da aplicação
+not_digit:
+    
+    li   $t2, '0'
+    bltu $t1, $a0, print_error_message  # input_number < '0'
+
+    li   $t2, '9'
+    bltu $a0, $t1, print_error_message  # input_number < '9'
+    
+    jr   $ra                    # return
+
 
 
 # ✤ -------- Funções da APLICAÇÃO -------- ✤ #
@@ -104,8 +117,19 @@ return:
 
 # ✤ -------- Funções de manipulação de arrays -------- ✤ #
 
-# Provavelmente precisarão ser feitas funções como
-    # -- Inverter array
-    # -- Copiar array
-    # -- Loops
-    # -- etc
+# Inverte um array. Utilizado para as obter as
+# strings de resultado em HEXADECIMAL e BINÁRIO
+# -- a0 → output_result, a1 → aux_array
+transpose_array:
+    la   $a0, output_result      # acessa o endereço da string de saída (o resultado da conversão)
+    li   $t0, 0                  # i = 0 (aponta para a última posição)
+
+    transpose_array_loop:
+    subi $a1, $a1, 1        # aux_array-- (decrementa posição)
+    lb   $t0, 0($a1)        # acessa um byte de 'aux_array'
+    beqz $t0, return        # nenhum byte lido (nulo), quebra o loop e imprime o resultado
+    sb   $t0, 0($a0)        # salva o caractere em 'output_result'
+    addi $a0, $a0, 1        # output_result++ (incrementa posição)
+    j transpose_array_loop  # continua o loop
+    
+

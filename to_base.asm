@@ -1,6 +1,7 @@
 # # # # # # # # Conversão de um INTEIRO DECIMAL para uma base de saída  # # # # # # # # 
 
-    # -------- SUM�?RIO -------- #
+
+    # -------- SUM�?RIO -------- #
     # t0 → base recebida 
     # t2 → endereço para comparações
     # t3 → número a ser convertido
@@ -8,22 +9,23 @@
     # t5 → contador para conversões
     
 
-# -------- Conversão BIN�?RIO → DECIMAL -------- #
+# -------- ConversÃ£o BINÁRIO → DECIMAL -------- #
 
 final_binary:
-    li   $t0, 2              # t0 = 2 (divisor BIN�?RIO)
-    la $a2, output_result    # guarda o endere�o de 'output_result'
+    li   $t0, 2                 # t0 = 2 (divisor BINÁRIO)
+    la   $a1, aux_array         # auxiliar → guarda o endereço de 'output_result'
     j    decimal_to_binary
 
 decimal_to_binary:
     div  $a0, $a0, $t0       # divide numero a ser convertido e guarda o quociente em a0
-    mfhi $t6                 # guarda o resto da opera��o em t6
+    mfhi $t6                 # guarda o resto da operação (HI) em t6 
+    mflo $a0                 # guarda o quociente (LO) em $a0
     addi $t6, $t6, 48        # converte pra char
-    sb   $t6, ($a2)          # armazena o valor na string de output
-    addi $a2, $a2, 1
+    sb   $t6, ($a1)          # armazena o valor na string de output
+    addi $a1, $a1, 1         # a1++ (incrementa o index)
     bgt  $a0, $zero, decimal_to_binary # continua o loop
-    j output_string          # imprime o resultado
-
+    jal transpose_array      # Inverte a string de resultado da conversão
+    j output_string          # Imprime o resultado
 
 
 
@@ -35,4 +37,3 @@ final_hexa:
     j    decimal_to_hexa
 
 decimal_to_hexa: 
-
