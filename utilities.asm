@@ -28,14 +28,12 @@ print_string:
 
 # Imprime uma mensagem de erro
 print_error_message:
-    jal print_newline
     la   $a0, invalid_input_text    # carrega o endereço da mensagem de erro
     jal  print_string
     j    exit                       # interrompe a execução do programa
 
 # Imprime uma mensagem de erro (caso a base inserida seja inválida)
 invalid_base:
-    jal print_newline
     la   $a0, invalid_base_text
     jal  print_string
     j exit
@@ -76,7 +74,7 @@ output_string:
 
 # Realiza a leitura da string de base
 read_base_input:
-    li   $v0, 8            # read_string syscall code = 8
+    li   $v0, 12            # read_string syscall code = 8
     syscall
     jr   $ra                # return
 
@@ -89,27 +87,21 @@ read_input_number:
     syscall
     jr   $ra                    # return
 
-# Função que verifica se a entrada de um número inteiro é válida
-# Caso o número seja inválido, interrompe a execução da aplicação
-verify_input:
-    
-    # -- Checa se é um número!
-    li   $t2, '0'
-    bltu $a0, $t2, print_error_message  # input_number < '0'
 
-    li   $t2, '9'
-    bltu $t2, $a0, print_error_message  # input_number > '9'
+# Retorna o tamanho de uma string em $t9
+# Recebe $a1 → aux_array
+# Retorna o tamanho em $t9
+strlen:
+    li $t6, 0 # contador = 0
+    li $t7, 0
+    loop:
+        lb $t7, 0($a1)   # carrega 1-byte de $a1 em $t3
+        beqz $t7, return # checa se está no final do array
+        addi $a1, $a1, 1 # a1++
+        addi $t6, $t6, 1 # t6++
+        j loop # Continua o loop
 
-    # -- Checa se está no intervalo aceito [0, 2^32]
-    li   $t2, 0
-    bltu $a0, $t2, print_error_message  # input_number < 0
-
-    li   $t2, 4294967296
-    bltu $t2, $a0, print_error_message  # input_number < 0
-
-
-    jr   $ra                    # return
-
+    jr $ra
 
 
 # ✤ -------- Funções da APLICAÇÃO -------- ✤ #
@@ -127,6 +119,20 @@ return:
 
 
 # ✤ -------- Funções de manipulação de arrays -------- ✤ #
+
+# Copia um valor ($a0) para o array auxiliar ($a1)
+copy_to_aux:
+    la   $a1, aux_array
+    j    copy_loop
+
+    copy_loop:
+        lb   $t9, 0($a0)
+        beq  $t9, $zero, return
+        sb   $t9, 0($a1)
+        addi $a0, $a0, 1
+        addi $a1, $a1, 1
+        j    copy_loop
+
 
 # Inverte um array. Utilizado para as obter as
 # strings de resultado em HEXADECIMAL e BINÁRIO

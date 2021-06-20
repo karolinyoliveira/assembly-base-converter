@@ -16,31 +16,106 @@
 
 # Base original é BINÁRIA
 original_binary:
-    # base final é a mesma (imprime o valor sem mudanças)
-    la   $t2, binary
-    lb   $t2, 0($t2)
-    beq  $t2, $t1, print_same_base    # t1 → é a base FINAL
-    
-    la   $a0, input_number   # a0 = input_number
-    j    binary_to_decimal
+    # checa se é uma entrada binária válida 
+    # -- O programa não aceita mais do que 32 bits para binário,
+    # então não há necessidade de checar aqui
+    verify_binary:
+        
+        # -- Checa se é um número positivo!
+        bltz $a1, print_error_message # input_number < 0
+
+        li $t9, 0 #contador
+        
+        vb_loop:
+        lb   $t9, 0($a1)        # acessa um byte de 'aux_array'
+        addi $a1, $a1, 1        # aux_array++ (incrementa)
+        beqz $t9, vb_continue   # nenhum byte lido (nulo), quebra o loop e continua
+
+        # -- Checa se é composto SOMENTE de '0' ou '1'!
+        li   $t2, 0
+        bltu $t9, $t2, print_error_message  # input_number < '0'
+
+        li   $t2, 1
+        bltu $t2, $t9, print_error_message  # input_number > '1'
+
+        j vb_loop # Continua o loop
+
+    vb_continue:
+        # base final é a mesma (imprime o valor sem mudanças)
+        la   $t2, binary
+        lb   $t2, 0($t2)
+        beq  $t2, $t1, print_same_base    # t1 → é a base FINAL
+        
+        la   $a0, input_number   # a0 = input_number
+        j    binary_to_decimal
 
 # Base original é HEXADECIMAL
 original_hexa:
-    # base final é a mesma (imprime o valor sem mudanças)
-    la   $t2, hexa
-    lb   $t2, 0($t2)
-    beq  $t2, $t1, print_same_base    # t1 → é a base FINAL
+    # checa se é uma entrada hexadecimal válida 
+    verify_hexa:
 
-    j    hexa_to_decimal
+        # -- Checa se é um número positivo!
+        bltz $a1, print_error_message # input_number < 0
+
+        # -- Checa se o número digitado não possui mais de 8 dígitos
+        jal strlen
+        li   $t2, 8
+        bltu $t2, $t9, print_error_message # O tamanho de strlen está em $t9
+
+        li   $t9, 0 # contador = 0
+
+        vh_loop:
+        lb   $t9, 0($a1)        # acessa um byte de 'aux_array'
+        addi $a1, $a1, 1        # aux_array++ (incrementa)
+        beqz $t9, vh_continue   # nenhum byte lido (nulo), quebra o loop e continua
+
+        #-- Checa se não há caracteres invalidos
+        li   $t2, 0
+        bltu $t9, $t2, print_error_message  # input_number < '0'
+
+        li   $t2, 'H'
+        bltu $t2, $t9, print_error_message  # input_number > 'H'
+
+        j vh_loop # Continua o loop
+
+    vh_continue:
+        # base final é a mesma (imprime o valor sem mudanças)
+        la   $t2, hexa
+        lb   $t2, 0($t2)
+        beq  $t2, $t1, print_same_base    # t1 → é a base FINAL
+
+        j    hexa_to_decimal
 
 # Base original é DECIMAL
 original_decimal:
-    # base final é a mesma (imprime o valor sem mudanças)
-    la   $t2, decimal
-    lb   $t2, 0($t2)
-    beq  $t2, $t1, print_same_base    # t1 → é a base FINAL
+    # checa se é uma entrada decimal válida 
+    verify_decimal:
+        # -- Checa se está no intervalo aceito [0, 2^32]
+        bltz $a1, print_error_message # input_number < 0
 
-    j    decimal_to_decimal
+        li   $t9, 4294967296
+        bgtu $a1, $t9, print_error_message  # input_number > 2^32
+
+        li   $t9, 0 # contador = 0
+        vd_loop:
+            lb   $t9, 0($a1)        # acessa um byte de 'aux_array'
+            addi $a1, $a1, 1        # aux_array++ (incrementa)
+            beqz $t9, vd_continue   # nenhum byte lido (nulo), quebra o loop e continua
+
+            # -- Checa se é um número! 
+            li   $t2, 0
+            bltu $t9, $t2, print_error_message  # input_number < '0'
+
+            li   $t2, 9
+            bltu $t2, $t9, print_error_message  # input_number > '9'
+
+    vd_continue:
+        # base final é a mesma (imprime o valor sem mudanças)
+        la   $t2, decimal
+        lb   $t2, 0($t2)
+        beq  $t2, $t1, print_same_base    # t1 → é a base FINAL
+
+        j    decimal_to_decimal
 
 # -------- ############## FUNÇÕES DE CONVERSÃO ############## -------- #
 

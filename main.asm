@@ -65,10 +65,7 @@ main:
     jal print_string
 	
     # Lê o inteiro digitado pelo o usuário
-    jal read_input_number
-
-    # checa se é uma entrada válida 
-    jal verify_input                
+    jal read_input_number         
 
 
 
@@ -88,7 +85,7 @@ main:
     # -------- INICIA A CONVERSÃO -------- #
 
     # t0 → base ORIGINAL
-    # t1 → base FINAL
+    # t1 → base FINAL      
 
     j start_conversion
 
@@ -101,6 +98,10 @@ main:
 # OTIMIZA o programa, pois trabalha-se com menos conversões
 start_conversion:
     # t2 → endereço para comparações
+
+    # Copia o valor do número para o array auxiliar
+    # pois precisaremos validar a entrada
+    jal copy_to_aux
 
     # if(t2 == 'B') → base original é BINÁRIA
     la  $t2, binary
