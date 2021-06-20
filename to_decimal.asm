@@ -94,7 +94,7 @@ original_decimal:
         bltz $a1, print_error_message # input_number < 0
 
         li   $t9, 4294967296
-        bgtu $a1, $t9, print_error_message  # input_number > 2^32
+        bgtu $t9, $a1, print_error_message  # input_number > 2^32
 
         li   $t9, 0 # contador = 0
         vd_loop:
