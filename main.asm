@@ -4,7 +4,7 @@
 # -------- AUTORES -------- #
 #  10368020 | Karoliny Oliveira
 #  11796805 | Lourenço de Salles Roselino
-#           | Luiz Fernando Santos
+#  10892680 | Luiz Fernando Santos
 #   5588687 | Melissa Motoki Nogueira
 
 

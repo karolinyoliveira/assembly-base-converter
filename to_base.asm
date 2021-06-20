@@ -37,3 +37,12 @@ final_hexa:
     j    decimal_to_hexa
 
 decimal_to_hexa: 
+    div  $a0, $a0, $t0       # divide numero a ser convertido e guarda o quociente em a0
+    mfhi $t6                 # guarda o resto da operação (HI) em t6 
+    mflo $a0                 # guarda o quociente (LO) em $a0
+    addi $t6, $t6, 48        # converte pra char
+    sb   $t6, ($a1)          # armazena o valor na string de output
+    addi $a1, $a1, 1         # a1++ (incrementa o index)
+    bgt  $a0, $zero, decimal_to_hexa # continua o loop
+    jal transpose_array      # Inverte a string de resultado da conversão
+    j output_string          # Imprime o resultado
